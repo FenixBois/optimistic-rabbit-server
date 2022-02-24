@@ -1,23 +1,12 @@
+import express from 'express';
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
+const app = express();
 
-async function main() {
-    await prisma.recepie.create({
-        data: {
-            title: 'Bartíkuv párek s kečupem',
-            content: '3 lžičky kečupu a párek',
-        },
-    });
+app.get('/recepies', async (req, res) => {
+    const recepies = await prisma.recepie.findMany();
+    res.json(recepies);
+});
 
-    const getAllRecepies = await prisma.recepie.findMany();
-    console.log(getAllRecepies);
-}
-
-main()
-    .catch(e => {
-        throw e;
-    })
-    .finally(async () => {
-        await prisma.$disconnect();
-    });
+const server = app.listen(3000, () => console.log('🚀 Server ready at: http://localhost:3000'));
