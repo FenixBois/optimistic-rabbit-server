@@ -9,4 +9,10 @@ app.get('/recepies', async (req, res) => {
     res.json(recepies);
 });
 
-const server = app.listen(3000, () => console.log('🚀 Server ready at: http://localhost:3000'));
+app.get('/', async (req, res) => {
+    res.json({ 'Hello world': 1 });
+});
+
+const PORT = process.env.port || 8080;
+
+app.listen(PORT, () => console.log(`🚀 Server ready at: ${PORT}`));
