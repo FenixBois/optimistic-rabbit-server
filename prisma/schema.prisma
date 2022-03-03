@@ -1,17 +1,25 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
   previewFeatures = ["referentialIntegrity"]
 }
+
 datasource db {
-  provider = "mysql"
-  url = env("DATABASE_URL")
+  provider             = "mysql"
+  url                  = env("DATABASE_URL")
   referentialIntegrity = "prisma"
 }
 
 model Recepie {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  title     String   @db.VarChar(255)
-  content   String?
-  published Boolean  @default(false)
+  id         Int        @id @default(autoincrement())
+  createdAt  DateTime   @default(now())
+  title      String     @db.VarChar(255)
+  content    String?
+  categories Category[] @relation(references: [id])
+  published  Boolean    @default(false)
+}
+
+model Category {
+  id    Int       @id @default(autoincrement())
+  name  String
+  posts Recepie[] @relation(references: [id])
 }
