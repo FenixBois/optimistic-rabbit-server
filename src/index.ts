@@ -1,8 +1,15 @@
 import express from 'express';
-import { PrismaClient } from '@prisma/client';
+import { createRecepie } from './functions/createRecepie';
 
-const prisma = new PrismaClient();
+import prisma from './client';
+
 const app = express();
+
+app.post('/recepie', async (req, res) => {
+    const { title, content } = req.body;
+    const result = await createRecepie({ title, content });
+    res.json(result);
+});
 
 app.get('/recepies', async (req, res) => {
     const recepies = await prisma.recepie.findMany();
@@ -10,7 +17,7 @@ app.get('/recepies', async (req, res) => {
 });
 
 app.get('/', async (req, res) => {
-    res.json({ 'Hello world': 1 });
+    res.send({ 'Unicorn recepies server 🦄' });
 });
 
 const PORT = process.env.port || 8080;
