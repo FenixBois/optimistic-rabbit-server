@@ -6,7 +6,8 @@ on:
         branches: [master]
 
 jobs:
-    job_id:
+    deploy_app:
+        runs-on: ubuntu-latest
         steps:
             - id: 'auth'
               uses: 'google-github-actions/auth@v0'
