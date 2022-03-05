@@ -1,1 +1,3 @@
-runtime: nodejs16
+runtime: 
+includes:
+  - env_variables.yaml

@@ -1,0 +1,2 @@
+env_variables:
+   DATABASE_URL : 'mysql://m2dnj9mxuwdk:pscale_pw_8oTSG2lEYC69rxr-K5RfXq_NwMcGx4NL30xU6NkAbmA@01o4d7gi94au.eu-west-2.psdb.cloud/optimistic-rabbit-db?sslaccept=strict'
