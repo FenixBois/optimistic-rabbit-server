@@ -1,8 +1,15 @@
 import express from 'express';
-import { PrismaClient } from '@prisma/client';
+import { createRecepie } from './functions/createRecepie';
 
-const prisma = new PrismaClient();
+import prisma from './client';
+
 const app = express();
+
+app.post('/recepie', async (req, res) => {
+    const { title, content } = req.body;
+    const result = await createRecepie({ title, content });
+    res.json(result);
+});
 
 app.get('/recepies', async (req, res) => {
     const recepies = await prisma.recepie.findMany();
