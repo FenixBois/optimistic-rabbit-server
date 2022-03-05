@@ -1,5 +1,1 @@
-runtime: nodejs16 
-
- env_variables:
-     MY_ENV_VAR1: $MY_ENV_VAR1
-     MY_ENV_VAR2: $MY_ENV_VAR2
+runtime: nodejs16
