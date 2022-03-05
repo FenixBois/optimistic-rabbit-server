@@ -1,5 +1,6 @@
 name: Google App Engine Deploy
 on:
-    pull_request: [master]
+    pull_request:
+        branches: [master]
     push:
         branches: [master]
