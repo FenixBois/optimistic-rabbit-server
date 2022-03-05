@@ -5,12 +5,13 @@ on:
         branches: [master]
 
 jobs:
-    runs-on: ubuntu-latest
-      steps:
-          - uses: actions/checkout@v2
-          - uses: actions/setup-node@v1
-            with:
-                node-version: 12
+    pull_request:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+            - uses: actions/setup-node@v1
+              with:
+                  node-version: 12
 
-          - run: yarn install --frozen-lockfile
-          - run: yarn test
+            - run: yarn install --frozen-lockfile
+            - run: yarn test
