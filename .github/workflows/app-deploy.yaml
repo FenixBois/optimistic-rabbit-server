@@ -1,4 +1,5 @@
 name: Google App Engine Deploy
+
 on:
     pull_request:
         branches: [master]
@@ -16,4 +17,3 @@ jobs:
 
             - id: 'deploy'
               uses: 'google-github-actions/deploy-appengine@v0'
-              deliverables: '../../app.yaml'
