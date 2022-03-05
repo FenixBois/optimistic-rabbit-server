@@ -17,7 +17,7 @@ app.get('/recepies', async (req, res) => {
 });
 
 app.get('/', async (req, res) => {
-    res.send({ 'Unicorn recepies server 🦄' });
+    res.send('Unicorn recepies server 🦄');
 });
 
 const PORT = process.env.port || 8080;
