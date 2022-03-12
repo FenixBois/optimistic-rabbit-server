@@ -3,6 +3,7 @@
     "version": "1.0.0",
     "license": "MIT",
     "scripts": {
+        "start": "ts-node src/index.ts",
         "test": "jest -i",
         "dev": "nodemon src/index.ts",
         "build": "rm -rf build/ && prettier --write src/ && tsc",
