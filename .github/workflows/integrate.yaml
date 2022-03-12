@@ -1,4 +1,4 @@
-name: Node Continuous Integration
+name: CI pipline
 
 on:
     pull_request:
