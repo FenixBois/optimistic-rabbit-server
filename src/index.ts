@@ -1,25 +1,27 @@
+import cors from 'cors';
 import express from 'express';
-import { createRecepie } from './functions/createRecepie';
-
-import prisma from './client';
+import type { NextFunction, Request, Response } from 'express';
+import routes from './api/routes/routes';
 
 const app = express();
 
-app.post('/recepie', async (req, res) => {
-    const { title, content } = req.body;
-    const result = await createRecepie({ title, content });
-    res.json(result);
+app.use(express.json());
+app.use(cors());
+app.use(routes);
+
+app.get('/', (_, res: Response) => {
+    res.json({ status: 'API is running on /api' });
 });
 
-app.get('/recepies', async (req, res) => {
-    const recepies = await prisma.recepie.findMany();
-    res.json(recepies);
+app.use((_, res: Response, next: NextFunction) => {
+    const error = new Error('not found');
+    return res.status(404).json({
+        message: error.message,
+    });
 });
 
-app.get('/', async (req, res) => {
-    res.send('Unicorn recepies server 🦄');
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+    console.info(`server up on port  ${PORT}`);
 });
-
-const PORT = process.env.port || 8080;
-
-app.listen(PORT, () => console.log(`🚀 Server ready at: ${PORT}`));
