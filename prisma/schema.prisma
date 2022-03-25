@@ -5,21 +5,30 @@ generator client {
 
 datasource db {
   provider             = "mysql"
-  url                  = env("DATABASE_URL")
+  url                  = env("DEV_DATABASE_URL")
   referentialIntegrity = "prisma"
 }
 
 model Recepie {
-  id         Int        @id @default(autoincrement())
-  createdAt  DateTime   @default(now())
-  title      String     @db.VarChar(255)
-  content    String?
-  categories Category[] @relation(references: [id])
-  published  Boolean    @default(false)
+  id          Int          @id @default(autoincrement())
+  createdAt   DateTime     @default(now())
+  title       String       @db.VarChar(255)
+  content     String?
+  slug        String       @unique
+  categories  Category[]   @relation(references: [id])
+  ingredients Ingredient[]
+  published   Boolean      @default(false)
+
+}
+
+model Ingredient {
+  id       Int       @id @default(autoincrement())
+  name     String    @db.VarChar(100)
+  recepies Recepie[] @relation(references: [id])
 }
 
 model Category {
-  id    Int       @id @default(autoincrement())
-  name  String
-  posts Recepie[] @relation(references: [id])
+  id       Int       @id @default(autoincrement())
+  name     String    @db.VarChar(100)
+  recepies Recepie[] @relation(references: [id])
 }
