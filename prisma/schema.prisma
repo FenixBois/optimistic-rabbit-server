@@ -1,0 +1,54 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["referentialIntegrity"]
+}
+datasource db {
+  provider = "mysql"
+  url = env("DATABASE_URL")
+  referentialIntegrity = "prisma"
+}
+
+model recipes {
+  id          String        @id @unique @default(cuid())
+  name        String
+  description String        @db.Text
+  servings    Int
+  time        Int
+  reference   String
+  difficulty  difficulty
+  media       media
+  taste       taste
+  vegetarian  Boolean       @default(false)
+  ingredients ingredients[]
+}
+
+model ingredients {
+  id        String  @id @unique @default(cuid())
+  name      String
+  amount    String
+  recipe    recipes @relation(fields: [recipesId], references: [id])
+  recipesId String
+}
+
+enum difficulty {
+  EASY
+  MEDIUM
+  HARD
+}
+
+enum media {
+  MOVIE
+  BOOK
+  GAME
+}
+
+enum taste {
+  SWEET
+  SALTY
+  SOUR
+  BITTER
+  SPICY
+}
