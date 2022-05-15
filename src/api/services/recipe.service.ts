@@ -1,6 +1,21 @@
 import prisma from '../../config/prisma';
+import logger from '../../config/winston';
 
-export const getAllRecipes = async () => {
+export const getAllRecipes = async (query: any) => {
+    if (query != {}) logger.info(query);
+
+    // let test: any = { servings: '2' };
+    //
+    // test = +test.servings;
+    //
+    // logger.info(`test value is: ${test}`);
+    if (query.servings) {
+        query.servings = +query.servings;
+    }
+    if (query.time) {
+        query.time = +query.time;
+    }
+
     return prisma.recipes.findMany({
         select: {
             id: true,
@@ -12,6 +27,9 @@ export const getAllRecipes = async () => {
             media: true,
             taste: true,
             vegetarian: true,
+        },
+        where: {
+            ...query,
         },
     });
 };
