@@ -1,7 +1,7 @@
 import { NextFunction, Request, RequestHandler, Response, Router } from 'express';
 import { createRecipe, getAllRecipes, getRecipe } from '../services/recipe.service';
 import logger from '../../config/winston';
-import { matchedData, param, query, ValidationChain, validationResult } from 'express-validator';
+import { body, check, matchedData, param, query, ValidationChain, validationResult } from 'express-validator';
 import { ValidationException } from '../../errors/ValidationException';
 import prisma from '../../config/prisma';
 
@@ -56,7 +56,21 @@ router.get(
     },
 );
 
-const RecipeValidation: ValidationChain[] = [];
+const RecipeValidation: ValidationChain[] = [
+    body('name').isString(),
+    body('description').isString(),
+    body('servings').isNumeric().withMessage({ message: '' }),
+    body('time').isNumeric(),
+    body('reference').isString(),
+    body('difficulty').isIn(['EASY', 'MEDIUM', 'HARD']),
+    body('media').isIn(['MOVIE', 'BOOK', 'GAME']),
+    body('taste').isIn(['SWEET', 'SALTY', 'SOUR', 'BITTER', 'SPICY']),
+    body('vegetarian').isBoolean(),
+
+    check('ingredients.*.name').isString(),
+    check('ingredients.*.amount').isNumeric(),
+    check('ingredients.*.unit').isIn(['ML', 'G', 'PIECES']),
+];
 
 router.post('/recipe', ...RecipeValidation, throwIfInvalid, async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -69,15 +83,15 @@ router.post('/recipe', ...RecipeValidation, throwIfInvalid, async (req: Request,
 });
 
 //update recipe
-router.put(
-    '/recipe/:id',
-    ...RecipeValidation,
-    throwIfInvalid,
-    async (req: Request, res: Response, next: NextFunction) => {
-        //check if recipe exists
-        //
-    },
-);
+// router.put(
+//     '/recipe/:id',
+//     ...RecipeValidation,
+//     throwIfInvalid,
+//     async (req: Request, res: Response, next: NextFunction) => {
+//         //check if recipe exists
+//         //
+//     },
+// );
 
 //delete recipe
 router.delete(

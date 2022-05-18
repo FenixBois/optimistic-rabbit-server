@@ -50,28 +50,42 @@ export const getRecipe = async (id: string) => {
     return result;
 };
 
-export const createRecipe = async (recipe: Prisma.recipesCreateInput) => {
+export const createRecipe = async (recipe: any) => {
+    let recipeCreate: Prisma.recipesCreateInput = {
+        name: recipe.name,
+        description: recipe.description,
+        servings: recipe.servings,
+        time: 0,
+        reference: recipe.reference,
+        difficulty: recipe.difficulty,
+        media: recipe.media,
+        taste: recipe.taste,
+        vegetarian: recipe.vegetarian,
+        ingredients: {
+            createMany: {
+                data: [...recipe.ingredients],
+            },
+        },
+    };
     const result = prisma.recipes.create({
-        data: recipe,
+        data: recipeCreate,
         include: { ingredients: true },
     });
 
     return result;
 };
 
-export const updateRecipe = async (id: string, recipe: Prisma.recipesUpdateInput) => {
-    const result = prisma.recipes.update({
-        where: { id: id },
-        data: recipe,
-        include: { ingredients: true },
-    });
+export const deleteRecipe = async (id: string) => {};
 
-    return result;
-};
-
-export const deleteRecipe = async (id: string) => {
-
-};
+// export const updateRecipe = async (id: string, recipe: Prisma.recipesUpdateInput) => {
+//     const result = prisma.recipes.update({
+//         where: { id: id },
+//         data: recipe,
+//         include: { ingredients: true },
+//     });
+//
+//     return result;
+// };
 
 // export const getRecipes = async (query: any) => {
 //     const recipes = await prisma.recipes.findMany();

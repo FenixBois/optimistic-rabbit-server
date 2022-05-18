@@ -43,3 +43,32 @@ Content-Type: application/json
     }
   }
 }
+
+
+### create new recipe
+POST http://localhost:8080/api/recipe
+Content-Type: application/json
+
+{
+  "name": "test",
+  "description": "test long text but longer",
+  "servings": 2,
+  "time": 10,
+  "reference": "Random game",
+  "difficulty": "MEDIUM",
+  "media": "GAME",
+  "taste": "SALTY",
+  "vegetarian": false,
+  "ingredients": [
+    {
+      "name": "trava zelena",
+      "amount": 10,
+      "unit": "PIECES"
+    },
+    {
+      "name": "voda",
+      "amount": 1000,
+      "unit": "ML"
+    }
+  ]
+}
