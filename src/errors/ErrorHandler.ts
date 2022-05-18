@@ -1,6 +1,6 @@
 import { ErrorRequestHandler, NextFunction, Request, Response } from 'express';
 import { EntityNotFound } from './EntityNotFound';
-import { ValidationErrorFound } from './ValidationErrorFound';
+import { ValidationException } from './ValidationException';
 import logger from '../config/winston';
 
 export const ErrorHandler: ErrorRequestHandler = (err, req: Request, res: Response, _: NextFunction) => {
@@ -11,16 +11,11 @@ export const ErrorHandler: ErrorRequestHandler = (err, req: Request, res: Respon
         body: req.body,
     });
 
-    // console.log(err);
-
     if (err instanceof EntityNotFound) {
         return res.status(404).json(err.message);
     }
 
-    console.log(`Is instance ${err instanceof ValidationErrorFound}`);
-
-    if (err instanceof ValidationErrorFound) {
-        console.log('YES');
+    if (err instanceof ValidationException) {
         return res.status(400).json(err.errors.array());
     }
 

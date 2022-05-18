@@ -1,13 +1,45 @@
 # http://164.90.165.141:8080
 
-###
+### get unfiltered recipes
 GET http://localhost:8080/api/recipes
 
-###
-GET http://localhost:8080/api/recipes?servings=2&time=201&difficulty=HD&media=MOVIE&taste=SOUR&vegetarian=false
+### get filtered recipes
+GET http://localhost:8080/api/recipes?servings=2&time=201&difficulty=HARD&media=MOVIE&taste=SOUR&vegetarian=false
 
-###
+### get filtered recipes
 GET http://localhost:8080/api/recipes?vegetarian=false
 
-###
-GET http://localhost:8080/api/recipe/cl0zpg2fr0000zxezlhgwngs5
+### get specific recipe
+GET http://localhost:8080/api/recipe/cl3bsv7v10000qbezpvhbuaue
+
+### create new recipe
+POST http://localhost:8080/api/recipe
+Content-Type: application/json
+
+{
+  "name": "test",
+  "description": "test long text but longer",
+  "servings": 2,
+  "time": 10,
+  "reference": "Random game",
+  "difficulty": "MEDIUM",
+  "media": "GAME",
+  "taste": "SALTY",
+  "vegetarian": false,
+  "ingredients": {
+    "createMany": {
+      "data": [
+        {
+          "name": "trava zelena",
+          "amount": 10,
+          "unit": "PIECES"
+        },
+        {
+          "name": "voda",
+          "amount": 1000,
+          "unit": "ML"
+        }
+      ]
+    }
+  }
+}

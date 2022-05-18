@@ -11,13 +11,13 @@ app.use(cors());
 app.use(routes);
 app.use(ErrorHandler);
 
-// app.use((_, res: Response) => {
-//     const e = new Error('not found');
-//     logger.error('not found');
-//     return res.status(404).json({
-//         message: e.message,
-//     });
-// });
+app.use((_, res: Response) => {
+    const e = new Error('not found');
+    logger.error('not found');
+    return res.status(404).json({
+        message: e.message,
+    });
+});
 
 const port = process.env.PORT || 8080;
 

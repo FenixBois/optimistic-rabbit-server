@@ -1,8 +1,9 @@
 import { NextFunction, Request, RequestHandler, Response, Router } from 'express';
-import { getAllRecipes, getRecipe } from '../services/recipe.service';
+import { createRecipe, getAllRecipes, getRecipe } from '../services/recipe.service';
 import logger from '../../config/winston';
-import { param, query, ValidationChain, validationResult } from 'express-validator';
-import { ValidationErrorFound } from '../../errors/ValidationErrorFound';
+import { matchedData, param, query, ValidationChain, validationResult } from 'express-validator';
+import { ValidationException } from '../../errors/ValidationException';
+import prisma from '../../config/prisma';
 
 const router = Router();
 
@@ -18,10 +19,8 @@ const FilterValidation: ValidationChain[] = [
 
 const throwIfInvalid: RequestHandler = (req: Request, res: Response, next: NextFunction) => {
     const result = validationResult(req);
-    console.log(result);
-    console.log(result.isEmpty());
     if (!result.isEmpty()) {
-        throw new ValidationErrorFound(result);
+        throw new ValidationException(result);
     }
 
     return next();
@@ -47,7 +46,7 @@ router.get(
     throwIfInvalid,
     async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const result = await getRecipe(req.params.id);
+            const result = await getRecipe(matchedData(req).id);
             logger.info(req.params);
             res.json(result);
         } catch (e) {
@@ -57,14 +56,37 @@ router.get(
     },
 );
 
-const CreationValidation: ValidationChain[] = [];
+const RecipeValidation: ValidationChain[] = [];
 
-router.post(
-    '/recipe',
-    ...CreationValidation,
+router.post('/recipe', ...RecipeValidation, throwIfInvalid, async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const result = await createRecipe(req.body);
+        res.json(result);
+    } catch (e) {
+        next(e);
+        logger.error(e);
+    }
+});
+
+//update recipe
+router.put(
+    '/recipe/:id',
+    ...RecipeValidation,
+    throwIfInvalid,
+    async (req: Request, res: Response, next: NextFunction) => {
+        //check if recipe exists
+        //
+    },
+);
+
+//delete recipe
+router.delete(
+    '/recipe/:id',
+    param('id').trim().isLength({ min: 25, max: 25 }),
     throwIfInvalid,
     async (req: Request, res: Response, next: NextFunction) => {
         try {
+            await prisma.recipes.delete(matchedData(req).id);
         } catch (e) {
             next(e);
             logger.error(e);

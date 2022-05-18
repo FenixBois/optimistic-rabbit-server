@@ -1,5 +1,7 @@
 import prisma from '../../config/prisma';
 import logger from '../../config/winston';
+import { EntityNotFound } from '../../errors/EntityNotFound';
+import { Prisma } from '@prisma/client';
 
 export const getAllRecipes = async (query: any) => {
     if (query != {}) logger.info(query);
@@ -38,7 +40,37 @@ export const getAllRecipes = async (query: any) => {
 };
 
 export const getRecipe = async (id: string) => {
-    return prisma.recipes.findUnique({ where: { id: id } });
+    const result = prisma.recipes.findUnique({
+        where: { id: id },
+        include: { ingredients: true },
+    });
+    if (result === null) {
+        throw new EntityNotFound();
+    }
+    return result;
+};
+
+export const createRecipe = async (recipe: Prisma.recipesCreateInput) => {
+    const result = prisma.recipes.create({
+        data: recipe,
+        include: { ingredients: true },
+    });
+
+    return result;
+};
+
+export const updateRecipe = async (id: string, recipe: Prisma.recipesUpdateInput) => {
+    const result = prisma.recipes.update({
+        where: { id: id },
+        data: recipe,
+        include: { ingredients: true },
+    });
+
+    return result;
+};
+
+export const deleteRecipe = async (id: string) => {
+
 };
 
 // export const getRecipes = async (query: any) => {
