@@ -1,24 +1,10 @@
 import prisma from '../../config/prisma';
-import logger from '../../config/winston';
-import { EntityNotFound } from '../../errors/EntityNotFound';
 import { Prisma } from '@prisma/client';
+import { Recipe } from '../../config/models';
 
 export const getAllRecipes = async (query: any) => {
-    if (query != {}) logger.info(query);
-
-    // let test: any = { servings: '2' };
-    //
-    // test = +test.servings;
-    //
-    // logger.info(`test value is: ${test}`);
-    if (query.servings) {
-        query.servings = +query.servings;
-    }
-    if (query.time) {
-        query.time = +query.time;
-    }
-    if (query.vegetarian) {
-        query.vegetarian = Boolean(JSON.parse(query.vegetarian));
+    if (query.name) {
+        query = { ...query, name: { contains: query.name } };
     }
 
     return prisma.recipes.findMany({
@@ -40,22 +26,18 @@ export const getAllRecipes = async (query: any) => {
 };
 
 export const getRecipe = async (id: string) => {
-    const result = prisma.recipes.findUnique({
+    return prisma.recipes.findUnique({
         where: { id: id },
         include: { ingredients: true },
     });
-    if (result === null) {
-        throw new EntityNotFound();
-    }
-    return result;
 };
 
-export const createRecipe = async (recipe: any) => {
+export const createRecipe = async (recipe: Recipe) => {
     let recipeCreate: Prisma.recipesCreateInput = {
         name: recipe.name,
         description: recipe.description,
         servings: recipe.servings,
-        time: 0,
+        time: recipe.time,
         reference: recipe.reference,
         difficulty: recipe.difficulty,
         media: recipe.media,
@@ -67,36 +49,10 @@ export const createRecipe = async (recipe: any) => {
             },
         },
     };
-    const result = prisma.recipes.create({
+    return prisma.recipes.create({
         data: recipeCreate,
         include: { ingredients: true },
     });
-
-    return result;
 };
 
-export const deleteRecipe = async (id: string) => {};
-
-// export const updateRecipe = async (id: string, recipe: Prisma.recipesUpdateInput) => {
-//     const result = prisma.recipes.update({
-//         where: { id: id },
-//         data: recipe,
-//         include: { ingredients: true },
-//     });
-//
-//     return result;
-// };
-
-// export const getRecipes = async (query: any) => {
-//     const recipes = await prisma.recipes.findMany();
-// };
-//
-//
-// //TODO: check if ingredient exists
-// export const createRecipe = async (recipe: Prisma.recipesCreateInput) => {
-//     await prisma.recipes.create({
-//         data: {
-//             ...recipe,
-//         },
-//     });
-// };
+// export const deleteRecipe = async (id: string) => {};

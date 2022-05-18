@@ -19,5 +19,9 @@ export const ErrorHandler: ErrorRequestHandler = (err, req: Request, res: Respon
         return res.status(400).json(err.errors.array());
     }
 
-    return res.status(500).json(err.message);
+    if (err instanceof Error) {
+        return res.status(500).json('Something went wrong');
+    }
+
+    return res.status(500).json('Something went wrong');
 };
