@@ -1,6 +1,9 @@
 # Keep environment variables out of version control
 .idea
 
+!common/node_modules/\.prisma/
+!common/node_modules/\.prisma/client\*
+
 
 # Logs
 logs

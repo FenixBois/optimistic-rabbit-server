@@ -28,7 +28,8 @@ model recipes {
 model ingredients {
   id        String  @id @unique @default(cuid())
   name      String
-  amount    String
+  amount    Int
+  unit      unit
   recipe    recipes @relation(fields: [recipesId], references: [id])
   recipesId String
 }
@@ -51,4 +52,10 @@ enum taste {
   SOUR
   BITTER
   SPICY
+}
+
+enum unit {
+    ML
+    G
+    PIECES
 }

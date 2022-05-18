@@ -1,0 +1,13 @@
+# http://164.90.165.141:8080
+
+###
+GET http://localhost:8080/api/recipes
+
+###
+GET http://localhost:8080/api/recipes?servings=2&time=201&difficulty=HD&media=MOVIE&taste=SOUR&vegetarian=false
+
+###
+GET http://localhost:8080/api/recipes?vegetarian=false
+
+###
+GET http://localhost:8080/api/recipe/cl0zpg2fr0000zxezlhgwngs5

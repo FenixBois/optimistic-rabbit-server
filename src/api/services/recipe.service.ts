@@ -15,6 +15,9 @@ export const getAllRecipes = async (query: any) => {
     if (query.time) {
         query.time = +query.time;
     }
+    if (query.vegetarian) {
+        query.vegetarian = Boolean(JSON.parse(query.vegetarian));
+    }
 
     return prisma.recipes.findMany({
         select: {
@@ -32,6 +35,10 @@ export const getAllRecipes = async (query: any) => {
             ...query,
         },
     });
+};
+
+export const getRecipe = async (id: string) => {
+    return prisma.recipes.findUnique({ where: { id: id } });
 };
 
 // export const getRecipes = async (query: any) => {
