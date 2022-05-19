@@ -22,25 +22,3 @@ app.listen(port, () => {
     logger.info(`server up on port ${port}`);
 });
 
-// app.get('/recipes', async (req, res) => {
-//     const recepies = await prisma.recipes.findMany({
-//         include: {
-//             ingredients: true,
-//         },
-//     });
-//     res.json(recepies);
-// });
-//
-// app.post('/recipe', async (req, res) => {
-//     res.json(createRecipe(req.body));
-// });
-//
-// app.delete('/recipe', async (req, res) => {});
-//
-// app.get('/', async (req, res) => {
-//     res.send('Unicurn 🦄');
-// });
-//
-// const PORT = process.env.port || 8080;
-//
-// app.listen(PORT, () => console.log(`🚀 Server ready at: ${PORT}`));
