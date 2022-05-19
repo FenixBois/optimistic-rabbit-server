@@ -7,7 +7,7 @@ GET http://localhost:8080/api/recipes
 GET http://localhost:8080/api/recipes?servings=2&time=12&difficulty=medium&media=game&taste=spicy&vegetarian=false
 
 ### get specific recipe
-GET http://localhost:8080/api/recipe/cl3co6l0c1129piye8c051bua
+GET http://localhost:8080/api/recipe/cl3cpt03i002201yeu0v5v9yj
 
 ### get search name Random
 GET http://localhost:8080/api/recipes?name=st\ ts

@@ -8,20 +8,10 @@ export const getAllRecipes = async (query: any) => {
     }
 
     return prisma.recipes.findMany({
-        select: {
-            id: true,
-            name: true,
-            servings: true,
-            time: true,
-            reference: true,
-            difficulty: true,
-            media: true,
-            taste: true,
-            vegetarian: true,
-        },
         where: {
             ...query,
         },
+        include: { ingredients: true },
     });
 };
 
