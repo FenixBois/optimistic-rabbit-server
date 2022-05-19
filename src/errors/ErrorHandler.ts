@@ -16,12 +16,11 @@ export const ErrorHandler: ErrorRequestHandler = (err, req: Request, res: Respon
 
     if (err instanceof ValidationException) return res.status(400).json(err.errors.array());
 
-    if (err instanceof PrismaClientKnownRequestError) {
-        if (err.code === 'P2025') return res.status(404).send('Record does not exist.');
-        return res.status(500).send('Something went wrong');
+    if (err instanceof PrismaClientKnownRequestError && err.code === 'P2025') {
+        return res.status(404).send('Record does not exist.');
     }
 
     if (err instanceof Error) return res.status(500).json('Something went wrong');
 
-    return res.status(500).json('Something went wrong');
+    return res.status(500).send('Something went wrong');
 };

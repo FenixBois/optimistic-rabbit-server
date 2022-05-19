@@ -31,13 +31,8 @@ const throwIfInvalid: RequestHandler = (req: Request, res: Response, next: NextF
 //get all/filtered recipes
 router.get('/recipes', ...FilterValidation, throwIfInvalid, async (req: Request, res: Response) => {
     requestLogger(req);
-    // try {
     const result = await getAllRecipes(matchedData(req));
     res.json(result);
-    // } catch (err) {
-    //     logger.error(err);
-    //     return res.status(500).send('Something went wrong');
-    // }
 });
 
 //get recipe detail
@@ -47,22 +42,11 @@ router.get(
     throwIfInvalid,
     async (req: Request, res: Response) => {
         requestLogger(req);
-        // try {
         const result = await getRecipe(matchedData(req).id);
         if (!result) {
             return res.status(404).send('Entity not found');
         }
-
         res.json(result);
-        // } catch (err) {
-        //     logger.error(err);
-        //     if (err instanceof PrismaClientKnownRequestError) {
-        //         console.log('hello');
-        //         if (err.code === 'P2025') return res.status(404).send('Record does not exist.');
-        //         return res.status(500).send('Something went wrong');
-        //     }
-        //     return res.status(500).send('Something went wrong');
-        // }
     },
 );
 
@@ -82,15 +66,11 @@ const RecipeValidation: ValidationChain[] = [
     check('ingredients.*.unit').toLowerCase().isIn(Object.keys(unit)),
 ];
 
+//create recipe
 router.post('/recipe', ...RecipeValidation, throwIfInvalid, async (req: Request, res: Response) => {
     requestLogger(req);
-    // try {
     const result = await createRecipe(req.body);
     res.json(result);
-    // } catch (err) {
-    //     logger.error(err);
-    //     return res.status(500).send('Something went wrong');
-    // }
 });
 
 //delete recipe
@@ -100,17 +80,8 @@ router.delete(
     throwIfInvalid,
     async (req: Request, res: Response) => {
         requestLogger(req);
-        // try {
         await prisma.recipes.delete({ where: { id: matchedData(req).id } });
         res.send('Success');
-        // } catch (err) {
-        //     logger.error(err);
-        //     if (err instanceof PrismaClientKnownRequestError) {
-        //         if (err.code === 'P2025') return res.status(404).send('Record to delete does not exist.');
-        //         return res.status(500).send('Something went wrong');
-        //     }
-        //     return res.status(500).send('Something went wrong');
-        // }
     },
 );
 

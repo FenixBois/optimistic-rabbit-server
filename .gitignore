@@ -3,6 +3,7 @@
 
 !common/node_modules/\.prisma/
 !common/node_modules/\.prisma/client\*
+docker-compose.yml
 
 
 # Logs

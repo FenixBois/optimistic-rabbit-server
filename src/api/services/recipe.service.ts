@@ -45,4 +45,3 @@ export const createRecipe = async (recipe: Recipe) => {
     });
 };
 
-// export const deleteRecipe = async (id: string) => {};

@@ -1,6 +1,6 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
 import cors from 'cors';
-import logger from './config/winston';
+import logger, { requestLogger } from './config/winston';
 import routes from './api/routes/routes';
 import { ErrorHandler } from './errors/ErrorHandler';
 
@@ -11,13 +11,10 @@ app.use(cors());
 app.use(routes);
 app.use(ErrorHandler);
 
-// app.use((_, res: Response) => {
-//     const e = new Error('not found');
-//     logger.error('not found');
-//     return res.status(404).json({
-//         message: e.message,
-//     });
-// });
+app.use((req: Request, res: Response) => {
+    requestLogger(req);
+    return res.status(404).send('Not found');
+});
 
 const port = process.env.PORT || 8080;
 
