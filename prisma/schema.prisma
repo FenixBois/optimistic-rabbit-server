@@ -35,27 +35,27 @@ model ingredients {
 }
 
 enum difficulty {
-  EASY
-  MEDIUM
-  HARD
+  easy
+  medium
+  hard
 }
 
 enum media {
-  MOVIE
-  BOOK
-  GAME
+  movie
+  book
+  game
 }
 
 enum taste {
-  SWEET
-  SALTY
-  SOUR
-  BITTER
-  SPICY
+  sweet
+  salty
+  sour
+  bitter
+  spicy
 }
 
 enum unit {
-    ML
-    G
-    PIECES
+    ml
+    g
+    pieces
 }

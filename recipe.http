@@ -4,13 +4,13 @@
 GET http://localhost:8080/api/recipes
 
 ### get filtered recipes
-GET http://localhost:8080/api/recipes?servings=2&time=201&difficulty=HARD&media=MOVIE&taste=SOUR&vegetarian=false
+GET http://localhost:8080/api/recipes?servings=2&time=12&difficulty=medium&media=game&taste=spicy&vegetarian=false
 
 ### get specific recipe
-GET http://localhost:8080/api/recipe/cl3c1f1h30000z6ezyrvv9btj
+GET http://localhost:8080/api/recipe/cl3co6l0c1129piye8c051bua
 
 ### get search name Random
-GET http://localhost:8080/api/recipes?name=trsatarst
+GET http://localhost:8080/api/recipes?name=st\ ts
 
 
 ### create new recipe
@@ -22,21 +22,21 @@ Content-Type: application/json
   "description": "test long text but longer",
   "servings": 2,
   "time": 10,
-  "reference": "Random game",
-  "difficulty": "MEDIUM",
-  "media": "GAME",
-  "taste": "SALTY",
+  "reference": "Random movie",
+  "difficulty": "hard",
+  "media": "movie",
+  "taste": "sour",
   "vegetarian": false,
   "ingredients": [
     {
       "name": "trava zelena",
       "amount": 10,
-      "unit": "PIECES"
+      "unit": "pieces"
     },
     {
       "name": "voda",
       "amount": 1000,
-      "unit": "ML"
+      "unit": "ml"
     }
   ]
 }
